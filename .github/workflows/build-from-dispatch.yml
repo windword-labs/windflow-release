@@ -133,6 +133,9 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v5
         with:
+          # prepare checks out windflow into ./source, so the workspace root
+          # has no package.json for action-setup to read packageManager from
+          package_json_file: source/package.json
           run_install: false
 
       - name: Set up Node.js
