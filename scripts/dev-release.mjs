@@ -9,17 +9,6 @@ export const PLATFORM_CONFIG = {
     updaterMetadataSource: 'latest-mac.yml',
     updaterMetadataAsset: 'dev-macos-arm64-mac.yml',
   },
-  'macos-x64': {
-    os: 'macos-15-intel',
-    updaterMetadataSource: 'latest-mac.yml',
-    updaterMetadataAsset: 'dev-macos-x64-mac.yml',
-  },
-  'macos-universal': {
-    // Pinned: signing fails on the macos-26 (26.6) image (windword-labs/windflow#3447).
-    os: 'macos-15',
-    updaterMetadataSource: 'latest-mac.yml',
-    updaterMetadataAsset: 'dev-macos-universal-mac.yml',
-  },
   'windows-x64': {
     os: 'windows-latest',
     updaterMetadataSource: 'latest.yml',
