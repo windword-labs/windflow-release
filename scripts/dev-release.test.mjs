@@ -36,31 +36,10 @@ test('prepares a deterministic dynamic matrix, tag, and package version', () => 
   })
 })
 
-test('uses an Intel runner for macOS x64 dev builds', () => {
+test('assigns unique updater metadata assets to macOS arm64 and Linux builds', () => {
   const prepared = prepareDevRelease({
     sha: 'a'.repeat(40),
-    platforms: ['macos-x64'],
-    baseVersion: '0.3.11',
-    runId: '12345',
-    attempt: '1',
-  })
-
-  assert.deepEqual(prepared.matrix, {
-    include: [
-      {
-        id: 'macos-x64',
-        os: 'macos-15-intel',
-        updaterMetadataSource: 'latest-mac.yml',
-        updaterMetadataAsset: 'dev-macos-x64-mac.yml',
-      },
-    ],
-  })
-})
-
-test('assigns unique updater metadata assets to universal macOS and Linux builds', () => {
-  const prepared = prepareDevRelease({
-    sha: 'a'.repeat(40),
-    platforms: ['macos-universal', 'linux-x64'],
+    platforms: ['macos-arm64', 'linux-x64'],
     baseVersion: '0.3.11',
     runId: '12345',
     attempt: '1',
@@ -68,10 +47,10 @@ test('assigns unique updater metadata assets to universal macOS and Linux builds
 
   assert.deepEqual(prepared.matrix.include, [
     {
-      id: 'macos-universal',
+      id: 'macos-arm64',
       os: 'macos-15',
       updaterMetadataSource: 'latest-mac.yml',
-      updaterMetadataAsset: 'dev-macos-universal-mac.yml',
+      updaterMetadataAsset: 'dev-macos-arm64-mac.yml',
     },
     {
       id: 'linux-x64',
@@ -86,6 +65,8 @@ test('rejects invalid, empty, duplicate, and unsupported platform selections', (
   assert.throws(() => normalizePlatforms(''), /at least one/)
   assert.throws(() => normalizePlatforms('linux-x64,linux-x64'), /duplicates/)
   assert.throws(() => normalizePlatforms('freebsd-x64'), /unsupported/)
+  assert.throws(() => normalizePlatforms('macos-x64'), /unsupported/)
+  assert.throws(() => normalizePlatforms('macos-universal'), /unsupported/)
   assert.throws(
     () =>
       prepareDevRelease({

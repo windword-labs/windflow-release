@@ -16,16 +16,6 @@ on:
         required: false
         default: false
         type: boolean
-      macos_x64:
-        description: macOS Intel
-        required: false
-        default: false
-        type: boolean
-      macos_universal:
-        description: macOS Universal
-        required: false
-        default: false
-        type: boolean
       windows_x64:
         description: Windows x64
         required: false
@@ -73,8 +63,6 @@ jobs:
           DISPATCH_PLATFORMS: ${{ toJSON(github.event.client_payload.platforms) }}
           MANUAL_SHA: ${{ inputs.sha }}
           MANUAL_MACOS_ARM64: ${{ inputs.macos_arm64 }}
-          MANUAL_MACOS_X64: ${{ inputs.macos_x64 }}
-          MANUAL_MACOS_UNIVERSAL: ${{ inputs.macos_universal }}
           MANUAL_WINDOWS_X64: ${{ inputs.windows_x64 }}
           MANUAL_LINUX_X64: ${{ inputs.linux_x64 }}
           PUBLIC_WORKFLOW_REF: ${{ github.ref }}
@@ -97,8 +85,6 @@ jobs:
             : normalizePlatforms(
                 [
                   ['macos-arm64', process.env.MANUAL_MACOS_ARM64],
-                  ['macos-x64', process.env.MANUAL_MACOS_X64],
-                  ['macos-universal', process.env.MANUAL_MACOS_UNIVERSAL],
                   ['windows-x64', process.env.MANUAL_WINDOWS_X64],
                   ['linux-x64', process.env.MANUAL_LINUX_X64],
                 ]
@@ -343,12 +329,6 @@ jobs:
           case "${TARGET_ID}" in
             macos-arm64)
               pnpm --filter windflow-desktop build:dev-release -- --mac --arm64
-              ;;
-            macos-x64)
-              pnpm --filter windflow-desktop build:dev-release -- --mac --x64
-              ;;
-            macos-universal)
-              pnpm --filter windflow-desktop build:dev-release -- --mac --universal
               ;;
             windows-x64)
               pnpm --filter windflow-desktop build:dev-release -- --win nsis msi --x64
