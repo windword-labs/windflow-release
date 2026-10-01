@@ -22,7 +22,7 @@ test('prepares a deterministic dynamic matrix, tag, and package version', () => 
     include: [
       {
         id: 'macos-arm64',
-        os: 'macos-latest',
+        os: 'macos-15',
         updaterMetadataSource: 'latest-mac.yml',
         updaterMetadataAsset: 'dev-macos-arm64-mac.yml',
       },
@@ -69,7 +69,7 @@ test('assigns unique updater metadata assets to universal macOS and Linux builds
   assert.deepEqual(prepared.matrix.include, [
     {
       id: 'macos-universal',
-      os: 'macos-latest',
+      os: 'macos-15',
       updaterMetadataSource: 'latest-mac.yml',
       updaterMetadataAsset: 'dev-macos-universal-mac.yml',
     },

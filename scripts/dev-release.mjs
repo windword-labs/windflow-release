@@ -4,7 +4,8 @@ import { pathToFileURL } from 'node:url'
 
 export const PLATFORM_CONFIG = {
   'macos-arm64': {
-    os: 'macos-latest',
+    // Pinned: signing fails on the macos-26 (26.6) image (windword-labs/windflow#3447).
+    os: 'macos-15',
     updaterMetadataSource: 'latest-mac.yml',
     updaterMetadataAsset: 'dev-macos-arm64-mac.yml',
   },
@@ -14,7 +15,8 @@ export const PLATFORM_CONFIG = {
     updaterMetadataAsset: 'dev-macos-x64-mac.yml',
   },
   'macos-universal': {
-    os: 'macos-latest',
+    // Pinned: signing fails on the macos-26 (26.6) image (windword-labs/windflow#3447).
+    os: 'macos-15',
     updaterMetadataSource: 'latest-mac.yml',
     updaterMetadataAsset: 'dev-macos-universal-mac.yml',
   },
