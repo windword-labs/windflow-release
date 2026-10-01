@@ -62,7 +62,8 @@ jobs:
 
   macos-arm64:
     needs: prepare
-    runs-on: macos-latest
+    # Pinned to macos-15: signing fails on the macos-26 (26.6) image (windword-labs/windflow#3447).
+    runs-on: macos-15
     env:
       CSC_FOR_PULL_REQUEST: 'true'
       CSC_LINK_BASE64: ${{ secrets.CSC_LINK_BASE64 }}
@@ -282,7 +283,8 @@ jobs:
 
   macos-universal:
     needs: prepare
-    runs-on: macos-latest
+    # Pinned to macos-15: signing fails on the macos-26 (26.6) image (windword-labs/windflow#3447).
+    runs-on: macos-15
     env:
       CSC_FOR_PULL_REQUEST: 'true'
       CSC_LINK_BASE64: ${{ secrets.CSC_LINK_BASE64 }}
