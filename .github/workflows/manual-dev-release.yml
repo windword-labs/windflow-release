@@ -135,13 +135,14 @@ jobs:
       - name: Restore Rust build cache
         # Caches only third-party dependency artifacts (workspace crates are always rebuilt).
         # Keyed by OS, toolchain, Cargo.lock and target; shared by dev and stable builds.
-        # Saves only from main-ref runs; this repo has no PR-triggered workflows.
+        # Restore-only: this workflow can build any windflow ref, so it must not write
+        # the cache that signed stable builds restore.
         uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: crates -> target
           shared-key: desktop-macos-arm64
           cache-on-failure: false
-          save-if: ${{ github.ref == 'refs/heads/main' }}
+          save-if: false
 
       - name: Build Rust CLI binary
         shell: bash
@@ -233,13 +234,14 @@ jobs:
       - name: Restore Rust build cache
         # Caches only third-party dependency artifacts (workspace crates are always rebuilt).
         # Keyed by OS, toolchain, Cargo.lock and target; shared by dev and stable builds.
-        # Saves only from main-ref runs; this repo has no PR-triggered workflows.
+        # Restore-only: this workflow can build any windflow ref, so it must not write
+        # the cache that signed stable builds restore.
         uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: crates -> target
           shared-key: desktop-windows-x64
           cache-on-failure: false
-          save-if: ${{ github.ref == 'refs/heads/main' }}
+          save-if: false
 
       - name: Build Rust CLI binary
         shell: bash
@@ -302,13 +304,14 @@ jobs:
       - name: Restore Rust build cache
         # Caches only third-party dependency artifacts (workspace crates are always rebuilt).
         # Keyed by OS, toolchain, Cargo.lock and target; shared by dev and stable builds.
-        # Saves only from main-ref runs; this repo has no PR-triggered workflows.
+        # Restore-only: this workflow can build any windflow ref, so it must not write
+        # the cache that signed stable builds restore.
         uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: crates -> target
           shared-key: desktop-linux-x64
           cache-on-failure: false
-          save-if: ${{ github.ref == 'refs/heads/main' }}
+          save-if: false
 
       - name: Build Rust CLI binary
         shell: bash
