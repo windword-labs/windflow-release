@@ -362,8 +362,24 @@ jobs:
             exit 1
           fi
           pnpm verify:packaged-desktop-sidecars -- --app "$APP_PATH" --require-macos-team-id
-          xcrun stapler validate "$APP_PATH"
-          spctl --assess --type exec -vv "$APP_PATH"
+          # stapler/spctl contact Apple servers; retry transient network errors.
+          validate_attempt() {
+            xcrun stapler validate "${APP_PATH}" && spctl --assess --type exec -vv "${APP_PATH}"
+          }
+          MAX_ATTEMPTS=3
+          for attempt in $(seq 1 "${MAX_ATTEMPTS}"); do
+            echo "Notarization validation attempt ${attempt}/${MAX_ATTEMPTS}"
+            if validate_attempt; then
+              echo "Notarization validation succeeded on attempt ${attempt}"
+              break
+            fi
+            if [ "${attempt}" -eq "${MAX_ATTEMPTS}" ]; then
+              echo "Notarization validation failed after ${MAX_ATTEMPTS} attempts" >&2
+              exit 1
+            fi
+            echo "Notarization validation failed on attempt ${attempt}; retrying in 30s" >&2
+            sleep 30
+          done
 
       - name: Upload macOS arm64 artifacts
         uses: actions/upload-artifact@v7
